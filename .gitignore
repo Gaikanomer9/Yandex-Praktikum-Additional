@@ -1,0 +1,5 @@
+.idea
+.ipynb_checkpoints
+venv
+db.sqlite3
+sprint4/static

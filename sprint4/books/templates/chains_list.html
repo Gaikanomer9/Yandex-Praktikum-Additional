@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Chains</h2>
+    <ul>
+        {% for chain in store_chains %}
+            <li>{{ chain.name }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
