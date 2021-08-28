@@ -86,3 +86,11 @@ sudo ls /var/lib/docker/volumes/myvol/_data
 docker container run -dit --name volmort --mount source=myvol,target=/app nginx
 docker container ls
 docker container exec -it volmort sh
+
+
+# networks
+docker network create net
+docker container run --network net -dit alpine sh
+docker container run --network net -dit alpine sh
+docker network create net2
+docker container run --name single --network net2 -dit alpine sh
