@@ -1,0 +1,88 @@
+# install docker for ubuntu
+sudo apt-get update
+sudo apt-get install apt-transport-https ca-certificates curl gnupg lsb-release -y
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+sudo usermod -aG docker $USER
+docker system info
+
+# Explore images and filesystem
+docker pull redis
+sudo ls -lh /var/lib/docker/overlay2/
+sudo du -h --max-depth=1 /var/lib/docker/overlay2/ | sort -rh
+sudo du ls /var/lib/docker/overlay2/6183feedf8123137d550e92816837919c65fcaedd090b72e27d844dd1e8c4717/diff #change to the specific id
+# explore dive command locally
+docker image history redis
+docker manifest inspect redis
+docker image rm redis
+sudo ls -lh /var/lib/docker/overlay2/
+
+# check latest vs tagged version
+docker image ls --digests
+docker pull redis
+docker pull redis:6.2.5
+docker image ls --digests
+docker image rm redis
+docker images --digests
+docker rmi redis:6.2.5
+
+# work with app
+git clone https://github.com/Gaikanomer9/Yandex-Praktikum-Additional.git
+cd Yandex-Praktikum-Additional/sprint_docker_deep_dive/
+cd interpreted
+docker build -t test .
+docker container run -it -p 80:8000 test
+vim demo/demo/settings.py # add your host to allowed hosts
+docker build -t test .
+docker run -it -p 80:8000 test
+docker run -e ENV=stage -it -p 80:8000 test
+
+# explore container filesystem and data exchange
+docker container run -it alpine sh
+docker container run -d alpine sleep 1d
+docker container ls
+docker container stop 60 # change to your id
+docker container rm $(docker container ls -aq) -f
+docker image ls
+docker image rm $(docker image ls -aq)
+docker image ls
+docker image ls -aq
+docker container run -d alpine sleep 1d
+docker container ls
+docker container ls -a
+docker container ls
+docker container start 57
+docker container exec -it 60 sh
+docker container exec -it 57 sh
+docker container exec 57 cat newfile
+docker container stop 57
+docker container rm $(docker container ls -aq) -f
+docker image ls
+docker image rm $(docker image ls -aq)
+docker image inspect alpine
+docker image pull alpine
+docker image inspect alpine
+docker ps
+docker container ls -a
+docker container ls -aq
+
+# exploring volumes
+docker volume
+docker volume create myvol
+docker volume inspect myvol
+docker container run -dit --name voltest --mount source=myvol target=/vol alpine
+docker container run -dit --name voltest --mount source=myvol,target=/vol alpine
+docker container ls
+sudo ls /var/lib/docker/volumes
+sudo ls /var/lib/docker/volumes/myvol
+sudo ls /var/lib/docker/volumes/myvol_data
+sudo ls /var/lib/docker/volumes/myvol/_data
+docker container exec -it voltest sh
+sudo ls /var/lib/docker/volumes/myvol/_data
+docker container rm voltest -f
+sudo ls /var/lib/docker/volumes/myvol/_data
+docker container run -dit --name volmort --mount source=myvol,target=/app nginx
+docker container ls
+docker container exec -it volmort sh
