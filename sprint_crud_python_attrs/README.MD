@@ -12,3 +12,9 @@ pip install -r requirements.txt
 python -m manage migrate
 python -m manage shell_plus --notebook
 ```
+
+План:
+
+- https://roadmap.sh/backend
+- Структура Django
+- Дебаг проектов

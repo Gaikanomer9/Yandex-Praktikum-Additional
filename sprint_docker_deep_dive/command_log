@@ -94,3 +94,10 @@ docker container run --network net -dit alpine sh
 docker container run --network net -dit alpine sh
 docker network create net2
 docker container run --name single --network net2 -dit alpine sh
+
+#logs
+docker container ls
+docker container logs __name_of_container
+docker container logs __name_of_container -f #to follow the logs
+
+
