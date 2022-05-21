@@ -10,6 +10,6 @@ FROM scratch
 
 COPY --from=builder /go/bin/main /go/bin/main
 
-# COPY index.html /static/
+COPY index.html /static/
 
 ENTRYPOINT ["/go/bin/main"]
