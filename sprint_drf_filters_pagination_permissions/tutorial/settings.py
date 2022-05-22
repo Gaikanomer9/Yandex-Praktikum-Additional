@@ -129,10 +129,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Django REST Framework
 REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
-    'DEFAULT_PAGINATION_CLASS':
-    'rest_framework.pagination.PageNumberPagination',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
+        'snippets.auth.ImplicitAuthentication',
+        'snippets.auth.BasicPswdAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ]
 }

@@ -3,6 +3,7 @@ from rest_framework import permissions, renderers, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import generics
 from django.http import JsonResponse
 
 from snippets.models import Snippet
@@ -16,6 +17,20 @@ class ListSnippets(APIView):
         snippets = Snippet.objects.all()
         serializer = SnippetSerializer(snippets, many=True, context={'request': request})
         return JsonResponse(serializer.data, safe=False)
+
+class SnippetsListUser(generics.ListAPIView):
+    serializer_class = SnippetSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return Snippet.objects.filter(owner=user)
+
+class SnippetsListUserKwargs(generics.ListAPIView):
+    serializer_class = SnippetSerializer
+
+    def get_queryset(self):
+        username = self.kwargs['username']
+        return Snippet.objects.filter(owner__username=username)
 
 class SnippetViewSet(viewsets.ModelViewSet):
     """
