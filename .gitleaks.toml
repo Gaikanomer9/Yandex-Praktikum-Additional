@@ -1,0 +1,15 @@
+[allowlist]
+description = "global allow list"
+commits = []
+paths = [
+  '''sprint_drf_filters_pagination_permissions/tutorial/settings.py''',
+  '''sprint4/sprint4/settings.py''',
+  '''sprint_drf_filters_pagination_permissions/snippets/fixtures/users.json'''
+]
+regexes = []
+# note: stopwords targets the extracted secret, not the entire regex match
+# like 'regexes' does. (stopwords introduced in 8.8.0)
+stopwords = [
+  '''client''',
+  '''endpoint''',
+]
