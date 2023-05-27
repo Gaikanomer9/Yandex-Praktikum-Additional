@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import permissions, renderers, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework import generics
 from django.http import JsonResponse
@@ -17,6 +18,13 @@ class ListSnippets(APIView):
         snippets = Snippet.objects.all()
         serializer = SnippetSerializer(snippets, many=True, context={'request': request})
         return JsonResponse(serializer.data, safe=False)
+    
+    def post(self, request, format=None):
+        serializer = SnippetSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(owner=request.user)
+        return Response("Created new post", status=status.HTTP_201_CREATED)
+
 
 class SnippetsListUser(generics.ListAPIView):
     serializer_class = SnippetSerializer
@@ -53,22 +61,22 @@ class SnippetViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-    def check_permissions(self, request):
-        print(self.get_permissions())
-        super().check_permissions(request)
-        print("Checking permissions request based")
-        # self.permission_denied(
-        #             request,
-        #             message="Not allowed 🤷🏻‍♀️"
-        #         )
+    # def check_permissions(self, request):
+    #     print(self.get_permissions())
+    #     super().check_permissions(request)
+    #     print("Checking permissions request based")
+    #     # self.permission_denied(
+    #     #             request,
+    #     #             message="Not allowed 🤷🏻‍♀️"
+    #     #         )
     
-    def check_object_permissions(self, request, obj):
-        print("Now checking object permissions")
-        super().check_object_permissions(request, obj)
-        # self.permission_denied(
-        #             request,
-        #             message="Not allowed 🤷🏻‍♀️ 🤷🏻‍♀️"
-        #         )
+    # def check_object_permissions(self, request, obj):
+    #     print("Now checking object permissions")
+    #     super().check_object_permissions(request, obj)
+    #     # self.permission_denied(
+    #     #             request,
+    #     #             message="Not allowed 🤷🏻‍♀️ 🤷🏻‍♀️"
+    #     #         )
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """

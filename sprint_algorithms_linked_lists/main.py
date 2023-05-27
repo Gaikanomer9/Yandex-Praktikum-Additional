@@ -28,6 +28,10 @@ class LinkedList():
             temp = temp.Next
         temp.Next = node
 
+    # function for inserting element in the middle of the list
+    def insert(self, node: Node, index: int):
+        raise NotImplementedError('Implement insert function first')
+
     def length(self):
         raise NotImplementedError('Implement length function first')
 
