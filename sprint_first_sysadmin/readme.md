@@ -66,10 +66,11 @@ sudo groupadd sales
 groups
 groups boris
 sudo usermod -g sales boris
-sudo chmod 777 /home/username # only for demo purposes
+sudo chmod 750 /home/boris
+sudo chown boris:boris /home/boris
+sudo su boris
 touch file.txt
 echo "first file" > file.txt
-sudo su boris
 touch borisfile.txt
 echo "Boris File" >> borisfile.txt
 ls -l
