@@ -129,6 +129,9 @@ python3 -m http.server 8080
 # access files with different permissions through the web
 
 ```
+ps (then L -> nginx)
+create different files
+
 
 ###Important files:\
 /etc/nginx: The Nginx configuration directory. All of the Nginx configuration files reside here.
